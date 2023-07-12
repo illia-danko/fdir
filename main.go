@@ -1,3 +1,6 @@
+// Package main provides the tool to walks through the file system directories and print relative to
+// $HOME path of every matched directory pattern.
+
 package main
 
 import (
