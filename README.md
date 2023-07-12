@@ -1,4 +1,4 @@
-The tool walks though the file system directories and print relative to $HOME
+The tool walks through the file system directories and print relative to $HOME
 path of every matched directory pattern.
 
 # Usage
