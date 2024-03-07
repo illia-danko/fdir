@@ -4,7 +4,7 @@ path of every matched directory pattern.
 # Usage
 
 ```bash
-go run "$HOME/github.com" "$HOME/gitlab.com" --patterns .git .hg .bzr .svn
+go run main.go "$HOME/github.com" "$HOME/gitlab.com" --patterns .git .hg .bzr .svn
 ```
 
 Output:
