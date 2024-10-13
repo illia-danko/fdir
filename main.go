@@ -4,6 +4,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io/fs"
 	"log"
@@ -25,24 +26,35 @@ type opts struct {
 	homeDir     string
 	rootDirs    []string
 	patternDirs []string
+	staticDirs  []string
 }
 
 func parseOpts() opts {
-	n := len(os.Args)
-	sep := 0
-	for ; sep < n && os.Args[sep] != "--patterns"; sep++ {
-	}
-
 	usr, err := user.Current()
 	if err != nil {
 		panic(err)
 	}
 
-	return opts{
-		homeDir:     usr.HomeDir,
-		rootDirs:    os.Args[1:sep],
-		patternDirs: os.Args[sep+1:],
+	n := len(os.Args)
+	if n < 3 {
+		panic(errors.New("few number of arguments"))
 	}
+	opts := opts{homeDir: usr.HomeDir}
+	sep := 0
+	for ; sep < n && os.Args[sep] != "--patterns"; sep++ {
+	}
+
+	opts.rootDirs = os.Args[1:sep]
+	sep = min(sep+1, n)
+	i := sep
+	for ; sep < n && os.Args[sep] != "--static"; sep++ {
+	}
+
+	opts.patternDirs = os.Args[i:sep]
+	sep = min(sep+1, n)
+	opts.staticDirs = os.Args[sep:n]
+
+	return opts
 }
 
 func doMain() error {
@@ -87,6 +99,13 @@ func doMain() error {
 	}
 
 	wg.Wait()
+
+	for _, dir := range opts.staticDirs {
+		dir, err := filepath.Rel(opts.homeDir, dir)
+		if err == nil {
+			fmt.Fprintln(os.Stdout, dir)
+		}
+	}
 
 	return nil
 }

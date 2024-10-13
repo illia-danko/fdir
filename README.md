@@ -4,7 +4,7 @@ path of every matched directory pattern.
 # Usage
 
 ```bash
-go run main.go "$HOME/github.com" "$HOME/gitlab.com" --patterns .git .hg .bzr .svn
+go run main.go "$HOME/github.com" "$HOME/gitlab.com" --patterns .git .hg .bzr .svn --static "$HOME/Documents"
 ```
 
 Output:
@@ -12,6 +12,7 @@ Output:
 ```
 github.com/clearloop/leetcode-cli
 github.com/elixir-lsp/elixir-ls
+Documents
 ...
 ```
 
